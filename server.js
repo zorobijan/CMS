@@ -8,7 +8,7 @@ main();
 
 
 async function initialize(){
-    connection = await mysql.createConnection({host:'localhost', user: 'root', database: ''})
+    connection = await mysql.createConnection({host:'localhost', user: 'root', password: 'rootroot', database: 'employees_db'})
 
 }
 
@@ -36,7 +36,5 @@ async function main() {
     // query database
     const [rows] = await connection.execute(`SELECT * FROM employees where firstname = ?`,[responseObject.first_name] );
     console.table(rows);
-
-
 
   }
