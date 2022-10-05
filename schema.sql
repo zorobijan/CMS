@@ -4,13 +4,13 @@ CREATE DATABASE employees_db;
 USE employees_db;
 
 CREATE TABLE department (
-  id INT PRIMARY KEY
+  department_id INT PRIMARY KEY
   departmentName VARCHAR(30) to hold department name
 );
 
 CREATE TABLE roles (
-  id: INT PRIMARY KEY
-  employeeTitle: VARCHAR(30) to hold role title
+  role_id: INT PRIMARY KEY
+  employee_title: VARCHAR(30) to hold role title
   salary: DECIMAL to hold role salary
   department_id: INT to hold reference to department role belongs to
 );

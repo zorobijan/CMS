@@ -12,5 +12,3 @@ function accessDepartment () {
             },
         ])
 }
-
-module.exports = accessDepartment;

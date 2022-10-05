@@ -1,11 +1,16 @@
+const inquirer = require("inquirer");
 
 
+function employeeAccess () {
 
-let accessEmployee = () => {
-    inquirer
-        .prompt([
+    return inquirer
+        .prompt ([
             {
-                type: 'input',
-                name: 'name',
-                message: 'What is your name?',
+                type: "input",
+                name: "name"
+                message: "Add department name",
             },
+        ])
+}
+
+module.exports = employeeAccess

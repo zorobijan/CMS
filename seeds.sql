@@ -8,7 +8,7 @@ VALUES  (1000, HUMAN RESOURCES),
         (7000, FINANCE);
         (8000, C-Suite);
 
-INSERT INTO roles (role_id, employeeTitle, salary, department_id)
+INSERT INTO roles (role_id, employee_title, salary, department_id)
 VALUES  (1100, "Secretary", 45000, 1000),
         (1200, "Human Resources Manager", 65000, 1000),
         (2100, "Marketing Executive", 55000, 2000),
