@@ -1,7 +1,12 @@
 const inquirer = require("inquirer");
 
+const viewDepartments = async () => {
+    const [rows] = await connection.execute(`SELECT * FROM departments where first_name = ?`,[responseObject.first_name] );
+    console.log(results);
+}
 
-function accessDepartment () {
+const 
+function addDepartment () {
 
     return inquirer
         .prompt ([
