@@ -3,9 +3,9 @@ CREATE DATABASE employees_db;
 
 USE employees_db;
 
-CREATE TABLE department (
+CREATE TABLE departments (
   department_id INT PRIMARY KEY
-  departmentName VARCHAR(30) to hold department name
+  department_name VARCHAR(30) to hold department name
 );
 
 CREATE TABLE roles (
@@ -16,7 +16,7 @@ CREATE TABLE roles (
 );
 
 CREATE TABLE employees (
-  id: INT PRIMARY KEY
+  employee_id: INT PRIMARY KEY
   first_name: VARCHAR(30) to hold employee first name
   last_name: VARCHAR(30) to hold employee last name
   role_id: INT to hold reference to employee role

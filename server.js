@@ -54,84 +54,107 @@ async function main() {
       }
 ])
 
-      console.log(responseObject)
+      console.table(responseObject)
 } 
     // query database
 async function viewDepartments () {const [rows] = await connection.execute(`SELECT * FROM departments`,[responseObject.action] )
-  }; 
-async function viewRoles () {const [rows] = await connection.execute(`SELECT * FROM departments`,[responseObject.action] )
 }; 
-async function viewEmployees () {const [rows] = await connection.execute(`SELECT * FROM departments`,[responseObject.action] )
+async function viewRoles () {const [rows] = await connection.execute(`SELECT * FROM roles`,[responseObject.action] )
 }; 
-async function addDepartment () {const [rows] = await connection.execute(`INSERT INTO department SET ?`, {
-  departmentName: responseObject.
-}
+async function viewEmployees () {const [rows] = await connection.execute(`SELECT * FROM employees`,[responseObject.action] )
 }; 
-async function addRole () {const [rows] = await connection.execute(`SELECT * FROM departments`,[responseObject.action] )
-}; 
-async function addEmployee () {const [rows] = await connection.execute(`SELECT * FROM departments`,[responseObject.action] )
-}; 
-async function updateEmployee () {const [rows] = await connection.execute(`SELECT * FROM departments`,[responseObject.action] )
-}; 
+async function addDepartment () {
 
-    console.table(rows)
-    const [rows] = await connection.execute(`SELECT * FROM roles`,[responseObject.action] );
-    console.table(rows)
-    const [rows] = await connection.execute(`SELECT * FROM employees`,[responseObject.action] );
-    console.table(rows)
-    const [rows] = await connection.execute(`SELECT * FROM departments`,[responseObject.action] );
-    console.table(rows)
-    const [rows] = await connection.execute(`SELECT * FROM departments`,[responseObject.action] );
-    console.table(rows)
-    const [rows] = await connection.execute(`SELECT * FROM departments`,[responseObject.action] );
-    console.table(rows)
-    const [rows] = await connection.execute(`SELECT * FROM departments`,[responseObject.action] );
-    console.table(rows)
-    const [rows] = await connection.execute(`SELECT * FROM departments`,[responseObject.action] );
-    console.table(rows)
-    const [rows] = await connection.execute(`SELECT * FROM roles where employee title = ?`,[responseObject.employee_title] );
-    const [rows] = await connection.execute(`SELECT * FROM employees`,[responseObject.] );
-    const [rows] = await connection.execute(`SELECT * FROM roles where firstname = ?`,[responseObject.first_name] );
-    const [rows] = await connection.execute(`SELECT * FROM roles where firstname = ?`,[responseObject.first_name] );
-
-
-    await inquirer.prompt([ {
-      type: 'list',
-      name: 'action',
-      message: 'Please select one of the following options',
-      choices: [
-          'View Departments',
-          'View Roles',
-          'View Employees',
-          'Add Departments',
-          'Add Roles',
-          'Add Employees',
-          'Update Employee Role',
-          'Exit'
+  let department = await connection.execute(`SELECT * FROM departments`)
+  let answer = await inquirer.prompt([
+    {
+      name: 'department_name'
+      type: 'input'
+      message: 'Enter department name'
     }
+  ])
+  let result = await connection.query("INSERT INTO departments SET ?", {
+      department_name: answer.department_name
+});
 
-
-
-  }
-
-
-
-    
-
-//department query
-  db.query('SELECT * FROM departments', function (err, results) {
-    console.log(results);
-  });
-//roles queries
-  db.query('SELECT * FROM roles', function (err, results) {
-    console.log(results);
-  });
+}
+async function addRole () {
   
-  //employees queries
-  db.query('SELECT * FROM employees', function (err, results) {
-    console.log(results);
-  });
+  let role = await connection.execute(`SELECT * FROM roles`)
+  let answer = await inquirer.prompt([
+    {
+      name: 'employee_title'
+      type: 'input'
+      message: 'Enter employee title'
+    }
+    {
+      name: 'salary'
+      type: 'input'
+      message: 'Enter employee salary'
+    }
+    {
+      name: 'department_id'
+      type: 'input'
+      choices: departments.map((department) => {
+        return {
+          name: department.department_name,
+        }
+      })
+      message: 'Enter department ID'
+    }
+  ])
+  let result = await connection.query("INSERT INTO roles SET ?", {
+      role_name: answer.department_name
+});
+}; 
+async function addEmployee () {
 
+  let role = await connection.execute(`SELECT * FROM roles`)
+  let manager = await connection.execute(`SELECT * FROM employees`)
+  let answer = await inquirer.prompt([
+    {
+      name: 'first_name'
+      type: 'input'
+      message: 'Enter first name'
+    }
+    {
+      name: 'last_name'
+      type: 'input'
+      message: 'Enter last name'
+    }
+    {
+      name: 'employeeRoleId'
+      type: 'list'
+      choices: roles.map((role) => {
+        return {
+          name: role.employee_title,
+          value: role.role_id
+        }
+      })
+      message: "Enter employee ID"
+    }
+    {
+      name: 'employeeManagerId'
+      type: 'list'
+      choices: viewEmployees.map((employee) => {
+        return {
+          name: employee.role.id,
+        }
+      })
+      message: "Enter manager ID"
+    }
+  ])
+  let result = await connection.query("INSERT INTO employee SET ?", {
+    first_name: answer.firstName,
+    last_name: answer.lastName,
+    role_id: answer.employeeRoleId,
+    manager_id: answer.employeeManagerId
+});
+}; 
+async function updateEmployee () {
+  
+  let employee = await connection.execute(`SELECT * FROM employees`,[responseObject.action] )
+}; 
 
 
   app.use((req, res) => {
