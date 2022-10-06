@@ -1,19 +1,28 @@
 const inquirer = require("inquirer");
+const mysql = require('mysql2/promise');
 
-const viewDepartments = async () => {
-    const [rows] = await connection.execute(`SELECT * FROM departments where first_name = ?`,[responseObject.first_name] );
-    console.log(results);
+async function viewDepartments(main) {
+    const [rows] = await connection.execute(`SELECT * FROM departments`, [responseObject.action]) 
+    main();
+};
+
+async function addDepartment(main) {
+
+    let department = await connection.execute(`SELECT * FROM departments`)
+    let answer = await inquirer.prompt([
+        {
+            name: 'department_name',
+            type: 'input',
+            message: 'Enter department name',
+        }
+    ])
+    let result = await connection.query("INSERT INTO departments SET ?", {
+        department_name: answer.department_name
+    });
+    main()
 }
 
-const 
-function addDepartment () {
-
-    return inquirer
-        .prompt ([
-            {
-                type: "input",
-                name: "name"
-                message: "Add department name",
-            },
-        ])
+module.exports = {
+    viewDepartments,
+    addDepartment
 }
