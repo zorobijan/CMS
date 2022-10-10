@@ -1,12 +1,13 @@
 const inquirer = require("inquirer");
 const mysql = require('mysql2/promise');
 
-async function viewEmployees(main) {
-    const [rows] = await connection.execute(`SELECT * FROM employees`, [responseObject.action])
+async function viewEmployees(main, connection) {
+    const [rows] = await connection.execute(`SELECT * FROM employees`)
+    console.table(rows)
     main();
 };
 
-async function addEmployee(main) {
+async function addEmployee(main, connection) {
 
     let roles = await connection.execute(`SELECT * FROM roles`)
     let managers = await connection.execute(`SELECT * FROM employees`)
@@ -53,9 +54,10 @@ async function addEmployee(main) {
     main()
 };
 
-async function updateEmployee(main) {
-    let employee = await connection.execute(`SELECT * FROM employees`, [responseObject.action])
-};
+// async function updateEmployee(main, connection) {
+//     let employee = await connection.execute(`SELECT * FROM employees`)
+//     main()
+// };
 module.exports = {
     viewEmployees,
     addEmployee,

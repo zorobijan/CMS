@@ -1,7 +1,7 @@
 const mysql = require('mysql2/promise');
 const {viewDepartments, addDepartment} = require('./department.js')
 const {viewRoles, addRole} = require('./roles.js')
-const {viewEmployees, addEmployee, updateEmployee} = require('./employees.js')
+const {viewEmployees, addEmployee} = require('./employees.js')
 
 let inquirer = require("inquirer")
 
@@ -11,17 +11,22 @@ initialize()
 main();
 
 async function initialize(){
+  try {
+    
     connection = await mysql.createConnection({
       host:'localhost', 
       user: 'root', 
       password: 'rootroot',
       database: 'employees_db'})
+  } catch (error) {
+    console.log(error)
+  }
 }
 
 async function main() {
     // get the client
     // create the connection
-    let responseObject = await inquirer.prompt({ 
+    let responseObject = await inquirer.prompt([{ 
         type: 'list',
         name: 'action',
         message: 'Please select one of the following options',
@@ -32,53 +37,45 @@ async function main() {
             'Add Departments',
             'Add Roles',
             'Add Employees',
-            'Update Employee Role',
-            'Exit'
+            // 'Update Employee Role',
+            // 'Exit'
         ]
-    })
+    }])
+
       switch (responseObject.action) {
-        case 'viewDepartments':
-          viewDepartments(main);
+        case 'View Departments':
+          console.log("test")
+         await  viewDepartments(main, connection);
           break;
       }
       switch (responseObject.action) {
-        case 'viewRoles':
-          viewRoles(main);
+        case 'View Roles':
+          viewRoles(main, connection);
           break;
       }
       switch (responseObject.action) {
-        case 'viewEmployees':
-          viewEmployees(main);
+        case 'View Employees':
+          viewEmployees(main, connection);
+          break;
+      }
+      switch (responseObject.action) {
+        case 'Add Departments':
+          addDepartment(main, connection);
+          break;
+      }
+      switch (responseObject.action) {
+        case 'Add Roles':
+          addRole(main, connection);
+          break;
+      }
+      switch (responseObject.action) {
+        case 'Add Employees':
+          addEmployee(main, connection);
           break;
       }
       switch (responseObject.action) {
         case 'addDepartments':
-          addDepartments(main);
+          updateEmployee(main, connection);
           break;
       }
-      switch (responseObject.action) {
-        case 'addDepartments':
-          addRoles(main);
-          break;
-      }
-      switch (responseObject.action) {
-        case 'addDepartments':
-          addEmployees(main);
-          break;
-      }
-      switch (responseObject.action) {
-        case 'addDepartments':
-          updateEmployees(main);
-          break;
-      }
-      console.table(responseObject)
 } 
-
-
-  app.use((req, res) => {
-    res.status(404).end();
-  });
-  
-  app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
-  })

@@ -1,12 +1,13 @@
 const inquirer = require("inquirer");
 const mysql = require('mysql2/promise');
 
-async function viewRoles(main) {
-    const [rows] = await connection.execute(`SELECT * FROM roles`, [responseObject.action])
+async function viewRoles(main, connection) {
+    const [rows] = await connection.execute(`SELECT * FROM roles`)
+    console.table(rows)
     main()
 };
 
-async function addRole(main) {
+async function addRole(main, connection) {
 
     let role = await connection.execute(`SELECT * FROM roles`)
     let answer = await inquirer.prompt([
