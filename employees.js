@@ -23,41 +23,41 @@ async function addEmployee(main, connection) {
             message: 'Enter last name',
         },
         {
-            name: 'employeeRoleId',
+            name: 'employee_Id',
             type: 'list',
-            choices: roles.map((role) => {
+            choices: roles.map((roles) => {
                 return {
-                    name: role.employee_title,
-                    value: role.role_id
+                    name: roles.employee_title,
+                    value: roles.role_id
                 }
             }),
             message: "Enter employee ID",
         },
         {
-            name: 'employeeManagerId',
+            name: 'manager_Id',
             type: 'list',
-            choices: managers.map((employee) => {
+            choices: managers.map((employees) => {
                 return {
-                    name: employee.first_name,
-                    value: employee.id
+                    name: employees.first_name,
+                    value: employees.id
                 }
             }),
             message: "Enter manager ID",
         }
     ])
-    let result = await connection.execute("INSERT INTO employee SET ?", {
+    let result = await connection.execute("INSERT INTO employees SET ?", {
         first_name: answer.firstName,
         last_name: answer.lastName,
-        role_id: answer.employeeRoleId,
-        manager_id: answer.employeeManagerId
+        role_id: answer.employee_Id,
+        manager_id: answer.manager_Id
     });
     main()
 };
 
-// async function updateEmployee(main, connection) {
-//     let employee = await connection.execute(`SELECT * FROM employees`)
-//     main()
-// };
+async function updateEmployee(main, connection) {
+    let employee = await connection.execute(`SELECT * FROM employees`)
+    main()
+};
 module.exports = {
     viewEmployees,
     addEmployee,

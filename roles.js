@@ -9,6 +9,7 @@ async function viewRoles(main, connection) {
 
 async function addRole(main, connection) {
 
+    let departments = await connection.execute(`SELECT * FROM department`)
     let role = await connection.execute(`SELECT * FROM roles`)
     let answer = await inquirer.prompt([
         {
@@ -23,19 +24,19 @@ async function addRole(main, connection) {
         },
         {
             name: 'department_id',
-            type: 'input',
+            type: 'list',
             choices: departments.map((department) => {
                 return {
-                    name: department.department_id,
+                    name: department.department_name
                 }
             }),
-            message: 'Enter department ID',
+            message: 'Select Department',
         }
     ])
     let result = await connection.execute("INSERT INTO roles SET ?", {
         employee_title: answer.employee_title,
         salary: answer.salary,
-        department_id: department.department_id,
+        department_id: answer.department_id,
     });
     main()
 };
